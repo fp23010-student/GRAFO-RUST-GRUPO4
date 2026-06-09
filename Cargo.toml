@@ -1,0 +1,10 @@
+[package]
+name = "grafo-rust-grupo4"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Crate estándar para grafos en Rust
+# Docs: https://docs.rs/petgraph
+# NOTA: no están obligados a usarla, pueden implementar todo desde cero
+petgraph = "=0.6.3"
