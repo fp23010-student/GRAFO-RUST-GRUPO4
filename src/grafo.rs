@@ -1,46 +1,65 @@
 // ============================================================
 // MÓDULO: grafo.rs
-// RESPONSABLE: Integrante 2 — [PON TU NOMBRE AQUÍ]
+// RESPONSABLE: Integrante 2
 //
-// TODO: Implementa la estructura Grafo usando lista de adyacencia
-//       basada en índices Vec<usize>.
+// Implementa la estructura Grafo usando lista de adyacencia
+// basada en índices Vec<usize>.
 //
-// PREGUNTA CLAVE que debes poder responder en la exposición:
+// PREGUNTA CLAVE para la exposición:
 //   ¿Por qué usamos índices usize en vez de referencias &Nodo?
-//   Pista: investiga "Rust ownership cycles" y "borrow checker"
 // ============================================================
 
-/// TODO: Define la estructura Grafo.
-///       Debe contener:
-///         - El número de nodos
-///         - La lista de adyacencia (Vec de Vecs de índices)
+/// Estructura principal del grafo.
+/// Internamente usa una lista de adyacencia:
+///   adyacencia[i] = Vec con los índices de los vecinos del nodo i
 pub struct Grafo {
-    // TODO: agrega los campos aquí
+    /// Número total de nodos en el grafo
+    num_nodos: usize,
+    /// Lista de adyacencia: cada posición contiene los vecinos de ese nodo
+    adyacencia: Vec<Vec<usize>>,
 }
 
 impl Grafo {
-    /// TODO: Crea un grafo vacío con `n` nodos.
+    ///Crea un grafo vacío con `n` nodos y sin aristas.
     pub fn nuevo(n: usize) -> Self {
-        todo!("Crear grafo con n nodos vacíos")
+        Grafo {
+            num_nodos: n,
+            // Creamos n listas vacías, una por cada nodo
+            adyacencia: vec![Vec::new(); n],
+        }
     }
 
-    /// TODO: Agrega una arista BIDIRECCIONAL entre los nodos `a` y `b`.
-    ///       Recuerda: si A es amigo de B, entonces B también es amigo de A.
+    /// Agrega una arista BIDIRECCIONAL entre los nodos `a` y `b`.
+    /// Si A es amigo de B, entonces B también es amigo de A.
     pub fn agregar_arista(&mut self, a: usize, b: usize) {
-        todo!("Agregar arista en ambas direcciones")
+        self.adyacencia[a].push(b);
+        self.adyacencia[b].push(a);
     }
 
-    /// TODO: Devuelve una referencia a los vecinos del nodo `nodo`.
+    /// Devuelve una referencia a la lista de vecinos del nodo `nodo`.
     pub fn vecinos(&self, nodo: usize) -> &Vec<usize> {
-        todo!("Retornar vecinos del nodo")
+        &self.adyacencia[nodo]
     }
 
-    /// TODO: Imprime la lista de adyacencia de forma legible.
-    ///       Usa el Vec de nombres para mostrar nombres en vez de índices.
-    ///       Ejemplo de salida esperada:
-    ///         Ana    → [Bruno, Carla]
-    ///         Bruno  → [Ana, Diego]
+    /// Devuelve el número de nodos del grafo.
+    pub fn num_nodos(&self) -> usize {
+        self.num_nodos
+    }
+
+    /// Imprime la lista de adyacencia completa con nombres en vez de índices.
+    /// Ejemplo de salida:
+    ///   Hamilton Figueroa → [Mynor Cabrera, Cristian Guillen, ...]
+    ///   Mynor Cabrera     → [Hamilton Figueroa, Cristian Guillen, ...]
     pub fn imprimir(&self, nombres: &[String]) {
-        todo!("Imprimir lista de adyacencia con nombres")
+        println!("=== LISTA DE ADYACENCIA (Red Social) ===\n");
+        for i in 0..self.num_nodos {
+            // Convertimos los índices de vecinos a nombres
+            let vecinos_nombres: Vec<&str> = self.adyacencia[i]
+                .iter()
+                .map(|&idx| nombres[idx].as_str())
+                .collect();
+            println!("{:<25} → {:?}", nombres[i], vecinos_nombres);
+        }
+        println!();
     }
 }
