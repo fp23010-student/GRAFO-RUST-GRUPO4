@@ -1,6 +1,6 @@
 // ============================================================
 // MÓDULO: grafo.rs
-// RESPONSABLE: Integrante 2
+// RESPONSABLE: Mynor Cabrera
 //
 // Implementa la estructura Grafo usando lista de adyacencia
 // basada en índices Vec<usize>.
