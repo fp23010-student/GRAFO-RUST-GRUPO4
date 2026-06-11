@@ -1,0 +1,31 @@
+-- =============================================
+-- 01_TABLAS_AUXILIARES.SQL
+-- Tablas necesarias para la implementación
+-- =============================================
+
+CREATE TABLE PRERREQUISITO (
+    COD_MATERIA     VARCHAR2(10),
+    COD_PRERREQ     VARCHAR2(10),
+    COD_CARRERA     VARCHAR2(10),
+    PLAN            VARCHAR2(10),
+    CONSTRAINT PK_PRERREQUISITO 
+        PRIMARY KEY (COD_MATERIA, COD_PRERREQ, COD_CARRERA, PLAN)
+);
+
+CREATE TABLE AUDITORIA_NOTAS_EXPEDIENTE (
+    ID_AUDITORIA    NUMBER GENERATED ALWAYS AS IDENTITY,
+    CARNET          VARCHAR2(10),
+    COD_MATERIA     VARCHAR2(10),
+    COD_CARRERA     VARCHAR2(10),
+    PLAN            VARCHAR2(10),
+    NOTA_ANTERIOR   NUMBER(4,2),
+    NOTA_NUEVA      NUMBER(4,2),
+    USUARIO         VARCHAR2(30) DEFAULT USER,
+    FECHA           DATE         DEFAULT SYSDATE,
+    CONSTRAINT PK_AUDITORIA_EXPEDIENTE 
+        PRIMARY KEY (ID_AUDITORIA)
+);
+
+COMMIT;
+
+PROMPT 'Tablas auxiliares creadas correctamente.';

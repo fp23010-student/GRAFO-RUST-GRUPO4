@@ -1,0 +1,11 @@
+
+while true
+do
+    echo "[LOG] Todo bien..."
+    echo "[LOG] id_error: 5 : CRITICAL_ERR: 404, Conexion perdida"
+    echo "[LOG] id_error: 6 : CRITICAL_ERR: 500, Error interno del servidor"
+    echo "[LOG] id_error: 7 : CRITICAL_ERR: 403, Acceso denegado"
+    echo "[LOG] id_error: 8 : CRITICAL_ERR: 401, No autorizado"
+    echo "[LOG] id_error: 8 : CRITICAL_ERR: 401, No autorizado"
+    sleep 1
+done
