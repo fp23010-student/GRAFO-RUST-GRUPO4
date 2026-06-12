@@ -1,12 +1,11 @@
 // ============================================================
 // MÓDULO: main.rs
-// RESPONSABLE: Integrante 1 — [PON TU NOMBRE AQUÍ]
+// RESPONSABLE: Cristian Guillen
 //
 // TODO: Conecta todos los módulos y muestra los resultados.
-//       Este archivo es el director de orquesta: usa lo que
-//       construyeron tus compañeros para armar y consultar el grafo.
+//       Conecta todos los módulos y muestra los resultados.
 // ============================================================
-
+ 
 mod grafo;
 mod modelo;
 mod algoritmos;
@@ -18,38 +17,45 @@ use algoritmos::{bfs_ruta_corta, dfs_detectar_ciclo};
 fn main() {
     println!("=== RED SOCIAL — GRAFO-RUST-GRUPO4 ===\n");
 
-    // TODO 1: Cargar los usuarios y amistades desde modelo.rs
+    // 1: Cargar los usuarios y amistades desde modelo.rs
     let usuarios  = usuarios();
     let amistades = amistades();
 
-    // TODO 2: Extraer solo los nombres en un Vec<String> para
-    //         pasárselos a grafo.imprimir()
-    let nombres: Vec<String> = todo!("Extraer nombres de cada usuario");
+    // 2: Extraer solo los nombres en un Vec<String>
+    let nombres: Vec<String> = usuarios.iter().map(|u| u.nombre.clone()).collect();
 
-    // TODO 3: Crear el grafo con el número correcto de nodos
-    //         y agregar todas las aristas
-    let mut red = todo!("Crear Grafo::nuevo(...) con la cantidad de usuarios");
+    // 3: Crear el grafo y agregar todas las aristas
+    let mut red = Grafo::nuevo(usuarios.len());
     for (a, b) in &amistades {
-        todo!("Llamar a red.agregar_arista con cada par de amigos");
+        red.agregar_arista(*a, *b);
     }
 
-    // TODO 4: Imprimir la lista de adyacencia completa
-    todo!("Llamar a red.imprimir(&nombres)");
+    // 4: Imprimir la lista de adyacencia completa
+    red.imprimir(&nombres);
+    
+    println!("=== INFORMACIÓN DE USUARIOS ===\n");
+    for (i, u) in usuarios.iter().enumerate() {
+        println!("  [{}] {} | Edad: {} | Carrera: {}", i, u.nombre, u.edad, u.carrera);
+    }
+    println!();
 
-    // TODO 5: Usar BFS para encontrar la ruta más corta entre
-    //         dos usuarios de tu elección (por índice)
-    let origen  = 0; // TODO: cambia al índice que quieras
-    let destino = 0; // TODO: cambia al índice que quieras
-    println!("\nBFS: ruta más corta de {} a {}:", nombres[origen], nombres[destino]);
+    // 5: BFS — ruta más corta entre Hamilton (0) y Carlos (9)
+    let origen  = 0; // Hamilton Figueroa
+    let destino = 9; // Carlos Mendez
+    println!("BFS: ruta más corta de {} a {}:", nombres[origen], nombres[destino]);
     match bfs_ruta_corta(&red, origen, destino) {
         Some(ruta) => {
-            // TODO: imprime la ruta con nombres, no con índices
-            todo!("Imprimir la ruta como nombres separados por →")
+            let ruta_nombres: Vec<&str> = ruta.iter().map(|&i| nombres[i].as_str()).collect();
+            println!("{}", ruta_nombres.join(" → "));
         }
         None => println!("No existe camino entre esos usuarios."),
     }
 
-    // TODO 6: Usar DFS para detectar si hay ciclos en la red
+    // 6: DFS — detectar si hay ciclos en la red
     println!("\nDFS: detección de ciclos...");
-    todo!("Llamar a dfs_detectar_ciclo e imprimir si hay ciclo o no");
+    if dfs_detectar_ciclo(&red) {
+        println!(" Se detectó al menos un ciclo en la red social.");
+    } else {
+        println!(" No se encontraron ciclos en la red social.");
+    }
 }
